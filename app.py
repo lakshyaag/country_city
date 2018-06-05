@@ -2,6 +2,7 @@ import random
 
 import requests
 import pandas as pd
+from fuzzywuzzy import fuzz
 
 
 def get_countries(region):
@@ -10,7 +11,12 @@ def get_countries(region):
 
 
 def check(random_country, answer):
-    return answer.lower() == random_country['capital'].lower()
+    return fuzz.partial_ratio(answer.lower(), random_country['capital'].lower()) >= 75
+
+
+def spelling(country, answer):
+    if check(country, answer):
+        return fuzz.partial_ratio(answer.lower(), country['capital'].lower()) is not 100
 
 
 def game():
@@ -40,6 +46,7 @@ def game():
                     'Country': country['name'],
                     'Capital': country['capital'],
                     'Your Answer': answer.title(),
+                    'Spelling Errors': spelling(country, answer)
                 })
 
             else:
@@ -48,11 +55,9 @@ def game():
         print("You scored {} out of {}. That is a {:.0%} score.".format(score, total, score / total))
 
         print("The correct answers were:\n")
-
-        print(pd.DataFrame(answers)[['Country', 'Capital', 'Your Answer']])
+        print(pd.DataFrame(answers)[['Country', 'Capital', 'Your Answer', 'Spelling Errors']])
 
         print('The answers have been saved to your system')
-
         pd.DataFrame(answers).to_csv('game.csv')
 
 
