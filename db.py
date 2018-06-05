@@ -29,8 +29,10 @@ def add_scores(details):
     try:
         c.execute(""" 
                     INSERT INTO scores (player_name, location, score, attempted, pct) 
-                    VALUES ('{0}', '{1}', {2}, {3}, {4}); """
-                  .format(details['name'], details['location'], details['score'], details['attempted'], details['pct']))
+                    VALUES (:name, :location, :score, :attempted, :pct); """,
+                  {'name': details['name'], 'location': details['location'], 'score': details['score'],
+                   'attempted': details['attempted'],
+                   'pct': details['pct']})
         conn.commit()
     except Error as e:
         print(e)
@@ -41,7 +43,7 @@ def add_scores(details):
 def get_scores():
     conn = sqlite3.connect(file)
     try:
-        print(pd.read_sql_query('SELECT * from scores ORDER BY score DESC', conn, index_col='player_name'))
+        print(pd.read_sql_query('SELECT * from scores ORDER BY pct DESC', conn, index_col='player_name'))
     except Error as e:
         print(e)
     finally:

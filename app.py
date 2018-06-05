@@ -18,7 +18,7 @@ def check(random_country, answer):
 
 def spelling(country, answer):
     if check(country, answer):
-        return fuzz.partial_ratio(answer.lower(), country['capital'].lower()) is not 100
+        return fuzz.partial_ratio(answer.lower(), country['capital'].lower()) != 100
 
 
 def game():
@@ -30,7 +30,7 @@ def game():
     }
 
     region = input("Choose your region: Africa, Americas, Asia, Europe, Oceania\n").lower()
-    if region not in ['africa', 'americas', 'asia', 'europe', 'oceania']:
+    if region not in ('africa', 'americas', 'asia', 'europe', 'oceania'):
         print('Incorrect region. ')
         game()
     else:
@@ -40,7 +40,7 @@ def game():
         print("Game is starting. Enter 'EXIT' to stop the game.")
         for country in countries:
             total += 1
-            print("What is the capital of {}?".format(country['name']))
+            print(f"What is the capital of {country['name']}?")
             answer = input()
             if not answer.lower() == 'exit':
                 if check(country, answer):
@@ -62,7 +62,7 @@ def game():
             else:
                 break
 
-        print("You scored {} out of {}. That is a {:.0%} score.".format(score, total, score / total))
+        print(f"You scored {score} out of {total}. That is a {score/total:.0%} score.")
 
         print("The correct answers were:\n")
         print(pd.DataFrame(answers)[['Country', 'Capital', 'Your Answer', 'Spelling Errors']])
@@ -80,11 +80,8 @@ def game():
 
 def play():
     print("To play the game, press 'P'. To see the scoreboard, press 'S'.")
-    if input().lower() == 's':
-        db.get_scores()
-        exit(0)
-
-    if input().lower() == 'p':
+    choice = input().lower()
+    if choice == 'p':
         print("The game is now starting. Please enter your details for the scoreboard.")
         game()
         print("Thank you for playing. To see the scoreboard, press 'S'.")
@@ -92,6 +89,11 @@ def play():
             db.get_scores()
             exit(0)
         exit(0)
+
+    if choice == 's':
+        db.get_scores()
+        exit(0)
+
     else:
         print('Incorrect entry.')
         play()
