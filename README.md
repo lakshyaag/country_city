@@ -1,5 +1,7 @@
-# country_city
+# Country City Game
 Simple country-city game made in Python.
+ 
+Uses the [REST Countries API](http://restcountries.eu/).
 
 # How to run
 1. Clone / download the project to your local directory.
@@ -11,4 +13,4 @@ Simple country-city game made in Python.
 Ignore the fuzzywuzzy module warning (if it pops up). The application will run.
 
 # TODO
-* web app (maybe?)
+* web app (flask maybe?)
