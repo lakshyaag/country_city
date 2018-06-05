@@ -40,7 +40,10 @@ def game():
                     score += 1
                     print("Correct! Moving on.")
                 else:
-                    print("Incorrect! Here's the next one.")
+                    if answer.strip() == "":
+                        print("Here's the next one.")
+                    else:
+                        print("Incorrect! Here's the next one.")
 
                 answers.append({
                     'Country': country['name'],
@@ -58,7 +61,7 @@ def game():
         print(pd.DataFrame(answers)[['Country', 'Capital', 'Your Answer', 'Spelling Errors']])
 
         print('The answers have been saved to your system')
-        pd.DataFrame(answers).to_csv('game.csv')
+        pd.DataFrame(answers).to_csv('game.csv', index=False)
 
 
 game()
