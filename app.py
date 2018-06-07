@@ -21,18 +21,13 @@ def spelling(country, answer):
         return fuzz.partial_ratio(answer.lower(), country['capital'].lower()) != 100
 
 
-def game():
+def game(player_details):
     answers = []
-
-    player_details = {
-        'name': input("What's your name?\n"),
-        'location': input("Where are you from?\n")
-    }
 
     region = input("Choose your region: Africa, Americas, Asia, Europe, Oceania\n").lower()
     if region not in ('africa', 'americas', 'asia', 'europe', 'oceania'):
         print('Incorrect region. ')
-        game()
+        game(player_details)
     else:
         countries = get_countries(region)
         score = 0
@@ -83,7 +78,11 @@ def play():
     choice = input().lower()
     if choice == 'p':
         print("The game is now starting. Please enter your details for the scoreboard.")
-        game()
+        player_details = {
+            'name': input("What's your name?\n").capitalize(),
+            'location': input("Where are you from?\n").capitalize()
+        }
+        game(player_details)
         print("Thank you for playing. To see the scoreboard, press 'S'.")
         if input().lower() == 's':
             db.get_scores()

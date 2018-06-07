@@ -12,5 +12,3 @@ Uses the [REST Countries API](http://restcountries.eu/).
 # Notes
 Ignore the fuzzywuzzy module warning (if it pops up). The application will run.
 
-# TODO
-* web app (flask maybe?)
